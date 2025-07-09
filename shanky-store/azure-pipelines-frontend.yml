@@ -1,0 +1,23 @@
+trigger:
+  - main
+
+pool:
+  name: Default
+  demands:
+    - agent.name -equals LAPTOP-ONBRORAT
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+
+- script: |
+    cd shanky-store
+    npm install
+    npm run build
+  displayName: 'Build React App'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'shanky-store/build'
+    artifactName: 'frontend'
